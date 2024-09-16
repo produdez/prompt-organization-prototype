@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prompt_mappings', function (Blueprint $table) {
+        Schema::create('prompt_mapping', function (Blueprint $table) {
             $table->id();
             $table->foreignId('chat_bot_id')->constrained()->cascadeOnDelete();
             $table->foreignId('prompt_block_id')->constrained()->cascadeOnDelete();
+            $table->integer('order_column')->unsigned()->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prompt_mappings');
+        Schema::dropIfExists('prompt_mapping');
     }
 };

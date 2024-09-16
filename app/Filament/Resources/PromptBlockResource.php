@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PromptBlockResource\Pages;
 use App\Filament\Resources\PromptBlockResource\RelationManagers;
 use App\Models\PromptBlock;
+use Doctrine\DBAL\Schema\View;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,7 +25,12 @@ class PromptBlockResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->label('Prompt Block Name'),
+                Forms\Components\Textarea::make('content')
+                    ->label('Content')
+                    ->dehydrated(fn ($state) => filled($state)),
             ]);
     }
 
@@ -32,10 +38,8 @@ class PromptBlockResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->searchable()->sortable(),
                 TextColumn::make('name')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('description')
                     ->searchable()
                     ->sortable(),
             ])
@@ -44,6 +48,12 @@ class PromptBlockResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()
+                    ->form([
+                        Forms\Components\TextInput::make('name'),
+                        Forms\Components\Textarea::make('content'),
+                    ])
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -55,7 +65,7 @@ class PromptBlockResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ChatBotsRelationManager::class,
         ];
     }
 

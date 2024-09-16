@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('prompt_blocks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('content')->default('Normal prompt block');
+            $table->longText('content')->default('Normal prompt block');
             $table->timestamps();
         });
     }

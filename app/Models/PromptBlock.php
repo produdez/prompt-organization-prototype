@@ -11,15 +11,9 @@ class PromptBlock extends Model
 
     protected $fillable = ['name', 'content'];
 
+
     public function chatBots()
     {
-        return $this->hasManyThrough(
-            ChatBot::class,
-            PromptMapping::class,
-            'prompt_block_id', // Foreign key on PromptMapping table
-            'id', // Foreign key on PromptBlock table
-            'id', // Local key on ChatBot table
-            'chat_bot_id' // Local key on PromptMapping table
-        );
+        return $this->belongsToMany(ChatBot::class, 'prompt_mapping', 'prompt_block_id', 'chat_bot_id');
     }
 }

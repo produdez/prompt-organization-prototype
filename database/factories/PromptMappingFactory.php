@@ -19,7 +19,7 @@ class PromptMappingFactory extends Factory
     public function definition(): array
     {
         return [
-            'chatbot_id' => Chatbot::inRandomOrder()->first()->id,
+            'chat_bot_id' => Chatbot::inRandomOrder()->first()->id,
             'prompt_block_id' => PromptBlock::inRandomOrder()->first()->id,
         ];
     }

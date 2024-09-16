@@ -18,13 +18,11 @@ class ChatBot extends Model
      */
     public function promptBlocks()
     {
-        return $this->hasManyThrough(
-            PromptBlock::class,
-            PromptMapping::class,
-            'chat_bot_id', // Foreign key on PromptMapping table
-            'id', // Foreign key on PromptBlock table
-            'id', // Local key on ChatBot table
-            'prompt_block_id' // Local key on PromptMapping table
-        );
+        return $this->belongsToMany(PromptBlock::class, 'prompt_mapping', 'chat_bot_id', 'prompt_block_id');
+    }
+
+    public function chatBotPrompts()
+    {
+        return $this->hasMany(PromptMapping::class, 'chat_bot_id', 'id')->from('prompt_mapping');
     }
 }

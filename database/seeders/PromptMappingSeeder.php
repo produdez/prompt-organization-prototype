@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\PromptMapping;
 use App\Models\Chatbot;
 use App\Models\PromptBlock;
+use Laravel\Prompts\Prompt;
 
 class PromptMappingSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class PromptMappingSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        PromptMapping::factory()
+            ->count(10)
+            ->create();
     }
 }

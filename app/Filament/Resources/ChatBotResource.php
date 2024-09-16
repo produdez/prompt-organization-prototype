@@ -5,7 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ChatBotResource\Pages;
 use App\Filament\Resources\ChatBotResource\RelationManagers;
 use App\Models\ChatBot;
+use Faker\Provider\ar_EG\Text;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -24,7 +30,34 @@ class ChatBotResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make('Basic Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label('Chatbot Name'),
+                        Forms\Components\Textarea::make('description')
+                            ->label('Description')
+                            ->dehydrated(fn ($state) => filled($state)),
+                    ]),
+                Forms\Components\Section::make('Prompt Blocks')
+                    ->schema([
+                        Repeater::make('chatBotPrompts')
+                            ->relationship()
+                            ->schema([
+                                Select::make('prompt_block_id')
+                                    ->relationship('promptBlock', 'name')
+                                    ->required()
+                                    ->label('Name'),
+                            ])->reorderable(true)
+                            ->orderColumn('order_column')
+                            ->columns(2)
+                            ->itemLabel(
+                                fn (array $state): ?string =>
+                                isset($state['prompt_block_id']) && isset($state['order_column'])
+                                    ? "Prompt Id: {$state['prompt_block_id']}, order: {$state['order_column']}"
+                                    : null
+                            ),
+                    ]),
             ]);
     }
 
@@ -32,12 +65,14 @@ class ChatBotResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->searchable()->sortable(),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
                     ->sortable(),
+
             ])
             ->filters([
                 //
@@ -55,7 +90,7 @@ class ChatBotResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PromptBlocksRelationManager::class,
         ];
     }
 

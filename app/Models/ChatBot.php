@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -23,6 +24,8 @@ class ChatBot extends Model
 
     public function chatBotPrompts()
     {
-        return $this->hasMany(PromptMapping::class, 'chat_bot_id', 'id')->from('prompt_mapping');
+        $result = $this->hasMany(PromptMapping::class, 'chat_bot_id', 'id');
+        Debugbar::info('ChatBot::chatBotPrompts() count', $result->count());
+        return $result;
     }
 }

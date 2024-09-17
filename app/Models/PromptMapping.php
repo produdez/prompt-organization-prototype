@@ -8,20 +8,14 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
-class PromptMapping extends Pivot  implements Sortable
+class PromptMapping extends Model
 {
     use HasFactory;
-    use SortableTrait;
-
-    public $sortable = [
-        'order_column_name' => 'order_column',
-        'sort_when_creating' => true,
-        'sort_on_has_many' => true,
-    ];
-    public function buildSortQuery()
-    {
-        return static::query()->where('chat_bot_id', $this->chat_bot_id);
-    }
+    // public function buildSortQuery()
+    // {
+    //     return static::query()->where('chat_bot_id', $this->chat_bot_id);
+    // }
+    protected $table = 'prompt_mapping';
 
     protected $fillable = ['chat_bot_id', 'prompt_block_id', 'order_column'];
 

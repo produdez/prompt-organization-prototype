@@ -5,19 +5,16 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ChatBotResource\Pages;
 use App\Filament\Resources\ChatBotResource\RelationManagers;
 use App\Models\ChatBot;
-use Faker\Provider\ar_EG\Text;
-use Filament\Forms\Components\Actions\Action;
 use Filament\Forms;
-use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 
 class ChatBotResource extends Resource
@@ -37,25 +34,36 @@ class ChatBotResource extends Resource
                             ->label('Chatbot Name'),
                         Forms\Components\Textarea::make('description')
                             ->label('Description')
-                            ->dehydrated(fn ($state) => filled($state)),
                     ]),
+
                 Forms\Components\Section::make('Prompt Blocks')
                     ->schema([
                         Repeater::make('chatBotPrompts')
-                            ->relationship()
+                            ->relationship('chatBotPrompts')
                             ->schema([
                                 Select::make('prompt_block_id')
-                                    ->relationship('promptBlock', 'name')
+                                    ->relationship('promptBlock', 'name', modifyQueryUsing: fn(Builder $query) => $query->orderBy('id'))
                                     ->required()
+                                    ->preload()
                                     ->label('Name'),
-                            ])->reorderable(true)
+                                TextInput::make('prompt_block_id')->label('Prompt Id')->disabled(),
+                                Section::make('Extra information')
+                                    ->schema([
+                                        Select::make('prompt_block_id')
+                                            ->relationship('promptBlock', 'content')
+                                            ->required()
+                                            ->label('Content'),                                # NOTE: here if you want to make a select that's from relation, you need to custom it
+                                    ])->collapsed(),
+                            ])
+                            ->reorderable(true)
                             ->orderColumn('order_column')
+                            ->collapsed()
                             ->columns(2)
                             ->itemLabel(
-                                fn (array $state): ?string =>
+                                fn(array $state): ?string =>
                                 isset($state['prompt_block_id']) && isset($state['order_column'])
-                                    ? "Prompt Id: {$state['prompt_block_id']}, order: {$state['order_column']}"
-                                    : null
+                                    ? "Id: {$state['prompt_block_id']} Order: {$state['order_column']}"
+                                    : "Not ORDERED - new Item"
                             ),
                     ]),
             ]);

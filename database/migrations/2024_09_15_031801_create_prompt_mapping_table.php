@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('prompt_block_id')->constrained()->cascadeOnDelete();
             $table->integer('order_column')->unsigned()->nullable();
             $table->timestamps();
+
+            $table->unique(['chat_bot_id', 'prompt_block_id']);
         });
     }
 

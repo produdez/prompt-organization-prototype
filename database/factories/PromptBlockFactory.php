@@ -16,7 +16,7 @@ class PromptBlockFactory extends Factory
     {
         return [
             'name' => 'Prompt: '.$this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            'content' => $this->faker->paragraph(10),
         ];
     }
 }

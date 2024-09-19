@@ -7,7 +7,6 @@ use App\Filament\Resources\ChatBotResource\RelationManagers;
 use App\Models\ChatBot;
 use Filament\Forms;
 use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -47,22 +46,21 @@ class ChatBotResource extends Resource
                                     ->preload()
                                     ->label('Name'),
                                 TextInput::make('prompt_block_id')->label('Prompt Id')->disabled(),
-                                Section::make('Extra information')
-                                    ->schema([
-                                        Select::make('prompt_block_id')
-                                            ->relationship('promptBlock', 'content')
-                                            ->required()
-                                            ->label('Content'),                                // NOTE: here if you want to make a select that's from relation, you need to custom it
-                                    ])->collapsed(),
+                                Select::make('prompt_block_id')
+                                    ->relationship('promptBlock', 'content')
+                                    ->required()
+                                    ->selectablePlaceholder(false)
+                                    ->label(label: 'Content')
+                                    ->columnSpanFull()
+                                    ->extraInputAttributes(['class' => 'text-wrap']),
                             ])
                             ->reorderable(true)
                             ->orderColumn('order_column')
-                            ->collapsed()
                             ->columns(2)
                             ->itemLabel(
                                 fn (array $state): ?string => isset($state['prompt_block_id']) && isset($state['order_column'])
                                     ? "Id: {$state['prompt_block_id']} Order: {$state['order_column']}"
-                                    : 'Not ORDERED - new Item'
+                                    : 'New Prompt Relation'
                             ),
                     ]),
             ]);

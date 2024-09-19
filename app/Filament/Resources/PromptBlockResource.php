@@ -5,15 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PromptBlockResource\Pages;
 use App\Filament\Resources\PromptBlockResource\RelationManagers;
 use App\Models\PromptBlock;
-use Doctrine\DBAL\Schema\View;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class PromptBlockResource extends Resource
 {
@@ -52,7 +49,7 @@ class PromptBlockResource extends Resource
                     ->form([
                         Forms\Components\TextInput::make('name'),
                         Forms\Components\Textarea::make('content'),
-                    ])
+                    ]),
 
             ])
             ->bulkActions([

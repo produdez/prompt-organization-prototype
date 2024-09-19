@@ -2,12 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\PromptMapping;
-use App\Models\Chatbot;
-use App\Models\PromptBlock;
-use Laravel\Prompts\Prompt;
+use Illuminate\Database\Seeder;
 
 class PromptMappingSeeder extends Seeder
 {

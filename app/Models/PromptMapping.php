@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 
 class PromptMapping extends Model
 {
     use HasFactory;
+
     // public function buildSortQuery()
     // {
     //     return static::query()->where('chat_bot_id', $this->chat_bot_id);

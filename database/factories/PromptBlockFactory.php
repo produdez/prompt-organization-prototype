@@ -15,7 +15,7 @@ class PromptBlockFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Prompt: ' . $this->faker->sentence,
+            'name' => 'Prompt: '.$this->faker->sentence,
             'content' => $this->faker->paragraph,
         ];
     }

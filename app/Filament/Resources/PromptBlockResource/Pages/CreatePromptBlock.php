@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\PromptBlockResource\Pages;
 
 use App\Filament\Resources\PromptBlockResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreatePromptBlock extends CreateRecord

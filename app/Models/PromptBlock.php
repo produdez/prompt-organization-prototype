@@ -11,7 +11,6 @@ class PromptBlock extends Model
 
     protected $fillable = ['name', 'content'];
 
-
     public function chatBots()
     {
         return $this->belongsToMany(ChatBot::class, 'prompt_mapping', 'prompt_block_id', 'chat_bot_id');

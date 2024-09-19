@@ -77,13 +77,14 @@ class ChatBotResource extends Resource
                 TextColumn::make('description')
                     ->searchable()
                     ->sortable(),
-
+                TextColumn::make('prompt_blocks_count')->counts('promptBlocks')->label('#Prompts'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -49,7 +49,6 @@ class ChatBotResource extends Resource
                                 Select::make('prompt_block_id')
                                     ->relationship('promptBlock', 'content')
                                     ->required()
-                                    ->selectablePlaceholder(false)
                                     ->label(label: 'Content')
                                     ->columnSpanFull()
                                     ->extraInputAttributes(['class' => 'text-wrap']),
